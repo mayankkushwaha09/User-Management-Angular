@@ -1,0 +1,55 @@
+<div class="container" style="display: flex;">
+  <input [(ngModel)]="searchName" placeholder="Search by Name" />
+  <!-- Add filters UI here -->
+  <div class="m-1">
+    <label>Domain:</label>
+    <select [(ngModel)]="selectedDomain" (change)="applyFilters()">
+      <!-- <option value="">All</option> -->
+      <option *ngFor="let select of users" [value]="users">{{ select.domain }}</option>
+    </select>
+  </div>
+
+  <div class="m-1">
+    <label>Gender:</label>
+    <select [(ngModel)]="selectedGender" (change)="applyFilters()">
+      <!-- <option *ngFor="let select of users" [value]="users">{{ select.gender }}</option> -->
+      <option value="">All</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Agender">Agender</option>
+    </select>
+  </div>
+
+  <div class="m-1">
+    <label>Availability:</label>
+    <select [(ngModel)]="selectedAvailability" (change)="applyFilters()">
+      <option >None</option>
+      <option value="true">Available</option>
+      <option value="false">Not Available</option>
+    </select>
+  </div>
+</div>
+
+
+<div class="container" *ngFor="let user of users">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar></div>
+      <mat-card-title>{{"ID - " +  user.id }}</mat-card-title>
+      <mat-card-subtitle>{{"Name - "+ user.first_name }} {{ user.last_name }}</mat-card-subtitle>
+      <mat-card-subtitle>{{"Email - " + user.email }}</mat-card-subtitle>
+      <mat-card-subtitle>{{"Gender - " +  user.gender }}</mat-card-subtitle>
+      <mat-card-subtitle>{{"Domain - " +  user.domain }}</mat-card-subtitle>
+      <mat-card-subtitle>{{"Available - " +  user.available }}</mat-card-subtitle>
+      <mat-card-subtitle><button mat-raised-button color="primary" (click)="addToTeam(user)">Add to Team</button></mat-card-subtitle>
+      <img mat-card-md-image  width="100px" [src]="user.avatar" alt="User Image">
+    </mat-card-header>
+  </mat-card>
+</div>
+<div style="margin-top: auto;">
+  <mat-paginator
+  [length]="users.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onPageChange($event)"></mat-paginator>
+</div>
